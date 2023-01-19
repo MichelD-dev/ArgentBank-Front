@@ -1,17 +1,37 @@
+import {NavLink} from 'react-router-dom'
 import './Navbar.css'
+
+let user: string
 
 const Navbar = () => {
   return (
-    <div>
-      <a className="main-nav-item" href="./user.html">
-        <i className="fa fa-user-circle"></i>
-        Tony
-      </a>
-      <a className="main-nav-item" href="./index.html">
-        <i className="fa fa-sign-out"></i>
-        Sign Out
-      </a>
-    </div>
+    <nav>
+      <ul className="main-nav">
+        {!user ? (
+          <li className="main-nav-item">
+            <NavLink to="/login">
+              <i className="fa fa-user-circle"></i>
+              Sign In
+            </NavLink>
+          </li>
+        ) : (
+          <>
+            <li className="main-nav-item">
+              <NavLink to="/profile">
+                <i className="fa fa-user-circle"></i>
+                Tony
+              </NavLink>
+            </li>
+            <li className="main-nav-item">
+              <NavLink to="/">
+                <i className="fa fa-sign-out"></i>
+                Sign Out
+              </NavLink>
+            </li>
+          </>
+        )}
+      </ul>
+    </nav>
   )
 }
 

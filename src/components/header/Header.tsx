@@ -1,11 +1,12 @@
 import Logo from '../logo/Logo'
+import Navbar from '../navbar/Navbar'
 import './Header.css'
 
 const Header = () => {
   return (
     <nav className="main-nav">
-      <Logo /> 
-      
+      <Logo />
+      <Navbar />
     </nav>
   )
 }
