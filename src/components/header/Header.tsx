@@ -1,5 +1,4 @@
-import Logo from '../logo/Logo'
-import Navbar from '../navbar/Navbar'
+import {Logo, Navbar} from '@/components'
 import './Header.css'
 
 const Header = () => {
