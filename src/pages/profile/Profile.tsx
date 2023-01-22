@@ -1,4 +1,7 @@
+import {useProfileMutation} from '@/services/authApi'
 import {useState, useEffect} from 'react'
+import {setUserName} from '@/features/authSlice'
+import {useAppDispatch, useAppSelector} from '@/hooks/hooks'
 import './Profile.css'
 
 interface User {
@@ -14,14 +17,37 @@ interface Error {
 const Profile = () => {
   const [user, setUser] = useState<User | null>(null)
 
+  const dispatch = useAppDispatch()
+
+  const {
+    userName: {firstName, lastName},
+  } = useAppSelector(state => state.auth)
+
+  const [profile, {data, isSuccess, isError, error}] = useProfileMutation()
+
+  useEffect(() => {
+    profile()
+  }, [])
+
+  useEffect(() => {
+    if (isSuccess) {
+      console.log(data)
+
+      dispatch(
+        setUserName({
+          userName: {firstName, lastName},
+        }),
+      )
+    }
+  }, [isSuccess])
+
   return (
     <main className="main bg-dark">
       <div className="header">
         <h1>
           Welcome back
           <br />
-          {/* {user && user.name} */}
-          Tony Jarvis!
+          {isSuccess && `${firstName} ${lastName}!`}
         </h1>
         <button className="edit-button">Edit Name</button>
       </div>

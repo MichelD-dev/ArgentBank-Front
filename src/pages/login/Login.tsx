@@ -1,6 +1,8 @@
 import {ChangeEvent, useEffect, useRef, useState} from 'react'
 import {useLoginMutation} from '@/services/authApi'
 import {useNavigate} from 'react-router-dom'
+import {useAppDispatch} from '@/hooks/hooks'
+import {setToken} from '@/features/authSlice'
 import './Login.css'
 
 const initialState = {
@@ -9,20 +11,14 @@ const initialState = {
 }
 
 const SignIn = () => {
-  const [user, setUser] = useState(initialState)
+  const [userCredentials, setUserCredentials] = useState(initialState)
   // const [errMsg, setErrMsg] = useState<string | null>(null)
 
-  const {email, password} = user
+  const dispatch = useAppDispatch()
 
-  const [
-    login,
-    {
-      data: loginData,
-      isSuccess: isLoginSuccess,
-      isError: isLoginError,
-      error: loginError,
-    },
-  ] = useLoginMutation()
+  const {email, password} = userCredentials
+
+  const [login, {data, isSuccess, isError, error}] = useLoginMutation()
 
   const navigate = useNavigate()
 
@@ -30,12 +26,12 @@ const SignIn = () => {
 
   useEffect(() => userRef.current?.focus(), [])
 
-  // useEffect(() => setErrMsg(''), [user])
+  // useEffect(() => setErrMsg(''), [formValue])
 
   // useEffect(() => console.log(errMsg), [errMsg])
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setUser({...user, [e.target.name]: e.target.value})
+    setUserCredentials({...userCredentials, [e.target.name]: e.target.value})
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -48,11 +44,17 @@ const SignIn = () => {
   }
 
   useEffect(() => {
-    if (isLoginSuccess) {
-      console.log(loginData.message)
+    if (isSuccess) {
+      // console.log(data)
+      dispatch(
+        setToken({
+          token: data.body.token,
+        }),
+      )
+      setUserCredentials(initialState)
       navigate('/profile')
     }
-  }, [isLoginSuccess])
+  }, [isSuccess])
 
   return (
     <main className="main bg-dark">
