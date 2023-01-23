@@ -1,13 +1,27 @@
+import {setUserName} from '@/features/authSlice'
+import {useAppDispatch, useAppSelector} from '@/hooks/hooks'
 import {NavLink} from 'react-router-dom'
 import './Navbar.css'
 
-let user: string
-
 const Navbar = () => {
+  const {
+    userName: {firstName, lastName},
+  } = useAppSelector(state => state.auth)
+
+  const dispatch = useAppDispatch()
+
+  const handleLogout = () => {
+    dispatch(
+      setUserName({
+        userName: {firstName: '', lastName: ''},
+      }),
+    )
+  }
+
   return (
     <nav>
       <ul className="main-nav">
-        {!user ? (
+        {!firstName && !lastName ? (
           <li className="main-nav-item">
             <NavLink to="/login">
               <i className="fa fa-user-circle"></i>
@@ -19,11 +33,11 @@ const Navbar = () => {
             <li className="main-nav-item">
               <NavLink to="/profile">
                 <i className="fa fa-user-circle"></i>
-                Tony
+                {firstName}
               </NavLink>
             </li>
             <li className="main-nav-item">
-              <NavLink to="/">
+              <NavLink to="/" onClick={handleLogout}>
                 <i className="fa fa-sign-out"></i>
                 Sign Out
               </NavLink>

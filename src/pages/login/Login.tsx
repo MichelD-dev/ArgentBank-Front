@@ -18,7 +18,7 @@ const SignIn = () => {
 
   const {email, password} = userCredentials
 
-  const [login, {data, isSuccess, isError, error}] = useLoginMutation()
+  const [login, {data, isSuccess, error}] = useLoginMutation()
 
   const navigate = useNavigate()
 
@@ -45,7 +45,6 @@ const SignIn = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      // console.log(data)
       dispatch(
         setToken({
           token: data.body.token,
@@ -54,7 +53,16 @@ const SignIn = () => {
       setUserCredentials(initialState)
       navigate('/profile')
     }
-  }, [isSuccess])
+    if (error) {
+      if ('status' in error) {
+        const errMsg =
+          'error' in error ? error.error : JSON.stringify(error.data)
+        console.log(errMsg)
+      } else {
+        console.log(error.message)
+      }
+    }
+  }, [isSuccess, error])
 
   return (
     <main className="main bg-dark">

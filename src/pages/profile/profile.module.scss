@@ -171,20 +171,24 @@
   margin-left: 0.25rem;
 }
 
-.input-wrapper {
+.inputWrapper {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   text-align: left;
   margin-bottom: 1rem;
+  div {
+    width: 30%;
+    margin: 2rem;
+  }
+ input {
+    padding: 5px;
+    font-size: 1.2rem;
+    line-height: 2rem;
+  }
 }
 
 .input-wrapper label {
   font-weight: bold;
-}
-
-.input-wrapper input {
-  padding: 5px;
-  font-size: 1.2rem;
 }
 
 .footer {

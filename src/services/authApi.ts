@@ -1,11 +1,12 @@
+import {RootState} from '@/store/store'
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
     baseUrl: 'http://localhost:3001/api/v1/user',
-    prepareHeaders: headers => {
-      const token = localStorage.getItem('userToken')
+    prepareHeaders: (headers, {getState}) => {
+      const token = (getState() as RootState).auth.token
       if (token) headers.set('Authorization', `Bearer ${token}`)
 
       return headers
@@ -29,18 +30,27 @@ export const authApi = createApi({
         }
       },
     }),
+    updateProfile: builder.mutation({
+      query: (body: {firstName: string | null; lastName: string | null}) => {
+        return {
+          url: 'profile',
+          method: 'POST',
+          body,
+        }
+      },
+    }),
   }),
 })
 
 // User Credentials Interface
 export interface Credentials {
-  email: string | null
-  password: string | null
+  email: string
+  password: string
 }
 // User Names Interface
 export interface Names {
-  firstName: string | null
-  lastName: string | null
+  firstName: string
+  lastName: string
 }
 // User Profile Data Interface
 export interface ProfileDatas extends Credentials, Names {

@@ -4,16 +4,16 @@ import {RootState} from '@/store/store'
 export interface AuthState {
   token: string | null
   userName: {
-    firstName: string | null
-    lastName: string | null
+    firstName: string
+    lastName: string
   }
 }
 
 const initialState: AuthState = {
   token: null,
   userName: {
-    firstName: null,
-    lastName: null,
+    firstName: '',
+    lastName: '',
   },
 }
 
@@ -34,8 +34,8 @@ export const authSlice = createSlice({
       state,
       action: PayloadAction<{
         userName: {
-          firstName: string | null
-          lastName: string | null
+          firstName: string
+          lastName: string
         }
       }>,
     ) => {

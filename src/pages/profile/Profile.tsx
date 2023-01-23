@@ -1,21 +1,17 @@
 import {useProfileMutation} from '@/services/authApi'
-import {useState, useEffect} from 'react'
+import {useState, useEffect, ChangeEvent, useRef, FormEvent} from 'react'
 import {setUserName} from '@/features/authSlice'
 import {useAppDispatch, useAppSelector} from '@/hooks/hooks'
-import './Profile.css'
+import styles from './profile.module.scss'
 
 interface User {
   firstName: string
   lastName: string
 }
 
-interface Error {
-  message: string[]
-  statusCode: number
-}
-
 const Profile = () => {
-  const [user, setUser] = useState<User | null>(null)
+  const [user, setUser] = useState({firstName: '', lastName: ''})
+  const [userEditing, setUserEditing] = useState(false)
 
   const dispatch = useAppDispatch()
 
@@ -23,23 +19,54 @@ const Profile = () => {
     userName: {firstName, lastName},
   } = useAppSelector(state => state.auth)
 
-  const [profile, {data, isSuccess, isError, error}] = useProfileMutation()
+  const [profile, {data, isSuccess, error}] = useProfileMutation()
+
+  const userRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => userRef.current?.focus(), [userEditing])
 
   useEffect(() => {
     profile()
   }, [])
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess && data) {
       console.log(data)
-
+      const {firstName, lastName} = data.body
       dispatch(
         setUserName({
           userName: {firstName, lastName},
         }),
       )
     }
-  }, [isSuccess])
+    if (error) {
+      if ('status' in error) {
+        const errMsg =
+          'error' in error ? error.error : JSON.stringify(error.data)
+        console.log(errMsg)
+      } else {
+        console.log(error.message)
+      }
+    }
+  }, [isSuccess, error])
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setUser({...user, [e.target.name]: e.target.value})
+  }
+
+  const handleUserEdit = () => {
+    setUserEditing(userEditing => !userEditing)
+  }
+
+  const handleUserEditValidation = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    dispatch(
+      setUserName({
+        userName: user,
+      }),
+    )
+    setUserEditing(false)
+  }
 
   return (
     <main className="main bg-dark">
@@ -49,7 +76,39 @@ const Profile = () => {
           <br />
           {isSuccess && `${firstName} ${lastName}!`}
         </h1>
-        <button className="edit-button">Edit Name</button>
+        <button className="edit-button" onClick={handleUserEdit}>
+          Edit Name
+        </button>
+        {userEditing && (
+          <form onSubmit={handleUserEditValidation}>
+            <div className={styles.inputWrapper}>
+              <div>
+                <label htmlFor="firstName">firstName</label>
+                <input
+                  type="text "
+                  id="firstName"
+                  name="firstName"
+                  ref={userRef}
+                  onChange={handleChange}
+                  value={user.firstName}
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="lastName">lastName</label>
+                <input
+                  type="text "
+                  id="lastName"
+                  name="lastName"
+                  onChange={handleChange}
+                  value={user.lastName}
+                  required
+                />
+              </div>
+            </div>
+            <button className="edit-button">Validate</button>
+          </form>
+        )}
       </div>
       <h2 className="sr-only">Accounts</h2>
       <section className="account">
