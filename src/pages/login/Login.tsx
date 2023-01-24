@@ -2,7 +2,7 @@ import {ChangeEvent, useEffect, useRef, useState} from 'react'
 import {useLoginMutation} from '@/services/authApi'
 import {useNavigate} from 'react-router-dom'
 import {useAppDispatch} from '@/hooks/hooks'
-import {setToken} from '@/features/authSlice'
+import {setPersistCheck, setToken} from '@/features/authSlice'
 import './Login.css'
 
 const initialState = {
@@ -12,6 +12,7 @@ const initialState = {
 
 const SignIn = () => {
   const [userCredentials, setUserCredentials] = useState(initialState)
+  const [checked, setChecked] = useState(false)
   // const [errMsg, setErrMsg] = useState<string | null>(null)
 
   const dispatch = useAppDispatch()
@@ -38,13 +39,19 @@ const SignIn = () => {
     e.preventDefault()
     if (email && password) {
       await login({email, password})
+      dispatch(setPersistCheck({PersistCheck: checked}))
     } else {
       console.log('Please fill all inputs')
     }
   }
 
+  const handleCheck = () => {
+    setChecked(checked => !checked)
+  }
+
   useEffect(() => {
     if (isSuccess) {
+      // console.log(data)
       dispatch(
         setToken({
           token: data.body.token,
@@ -94,7 +101,7 @@ const SignIn = () => {
             />
           </div>
           <div className="input-remember">
-            <input type="checkbox" id="remember-me" />
+            <input type="checkbox" id="remember-me" onChange={handleCheck} />
             <label htmlFor="remember-me">Remember me</label>
           </div>
           <button className="sign-in-button">Sign In</button>

@@ -8,7 +8,7 @@ export const authApi = createApi({
     prepareHeaders: (headers, {getState}) => {
       const token = (getState() as RootState).auth.token
       if (token) headers.set('Authorization', `Bearer ${token}`)
-
+      // console.log(token)
       return headers
     },
   }),
@@ -22,19 +22,20 @@ export const authApi = createApi({
         }
       },
     }),
-    profile: builder.mutation<ProfileDatas, void>({
-      query: () => {
+    profile: builder.mutation({
+      query: (body: string) => {
         return {
           url: 'profile',
           method: 'POST',
+          body,
         }
       },
     }),
     updateProfile: builder.mutation({
-      query: (body: {firstName: string | null; lastName: string | null}) => {
+      query: (body: {firstName: string; lastName: string}) => {
         return {
           url: 'profile',
-          method: 'POST',
+          method: 'PUT',
           body,
         }
       },
@@ -59,4 +60,5 @@ export interface ProfileDatas extends Credentials, Names {
   id: string
 }
 
-export const {useLoginMutation, useProfileMutation} = authApi
+export const {useLoginMutation, useProfileMutation, useUpdateProfileMutation} =
+  authApi

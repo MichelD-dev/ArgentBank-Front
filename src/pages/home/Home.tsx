@@ -1,6 +1,17 @@
+import {useAppSelector} from '@/hooks/hooks'
+import {persistor} from '@/store/store'
+import {useEffect} from 'react'
 import './Home.css'
 
 const Home = () => {
+  const checkboxState = useAppSelector(state => state.auth.persistCheck)
+
+  useEffect(() => {
+    if (!checkboxState) {
+      persistor.purge()
+    }
+  }, [])
+
   return (
     <main>
       <div className="hero">
