@@ -76,9 +76,7 @@ const Profile = () => {
     editUser({...editedUser, [e.target.name]: e.target.value})
   }
 
-  const handleUserEdit = () => {
-    setUserEditing(userEditing => !userEditing)
-  }
+  const handleUserEdit = () => setUserEditing(true)
 
   const handleUserEditValidation = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -93,6 +91,11 @@ const Profile = () => {
     editUser({firstName: '', lastName: ''})
   }
 
+  const editCancelHandle = () => {
+    setUserEditing(false)
+    editUser({firstName: '', lastName: ''})
+  }
+
   return (
     <main className="main bg-dark">
       <div className="header">
@@ -101,37 +104,40 @@ const Profile = () => {
           <br />
           {`${user.firstName} ${user.lastName}!`}
         </h1>
-        <button className="edit-button" onClick={handleUserEdit}>
-          Edit Name
-        </button>
+        {!userEditing && (
+          <button className="edit-button" onClick={handleUserEdit}>
+            Edit Name
+          </button>
+        )}
         {userEditing && (
           <form onSubmit={handleUserEditValidation}>
             <div className={styles.inputWrapper}>
               <div>
-                <label htmlFor="firstName">firstName</label>
                 <input
                   type="text "
-                  id="firstName"
                   name="firstName"
                   ref={userRef}
                   onChange={handleChange}
+                  placeholder="firstName"
                   value={editedUser.firstName}
                   required
                 />
               </div>
               <div>
-                <label htmlFor="lastName">lastName</label>
                 <input
                   type="text "
-                  id="lastName"
                   name="lastName"
                   onChange={handleChange}
+                  placeholder="lastName"
                   value={editedUser.lastName}
                   required
                 />
               </div>
             </div>
-            <button className="edit-button">Validate</button>
+            <button className="edit-button">Save</button>
+            <button className="edit-button" onClick={editCancelHandle}>
+              Cancel
+            </button>
           </form>
         )}
       </div>
