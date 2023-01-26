@@ -18,7 +18,7 @@ const persistConfig = {
   key: 'user',
   version: 1,
   storage,
-  blacklist: [authApi.reducerPath],
+  whitelist: ['userName'],
 }
 
 const persistedReducer = persistReducer(persistConfig, authReducer)

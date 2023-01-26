@@ -7,7 +7,7 @@ import Layout from '../layout/Layout'
 import Error404 from '../pages/error404/Error404'
 import Home from '../pages/home/Home'
 import Profile from '../pages/profile/Profile'
-import Login from '../pages/login/Login'
+import Login from '../forms/loginForm/LoginForm'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
