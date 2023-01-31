@@ -1,42 +1,34 @@
-import {ChangeEvent, useEffect, useRef, useState} from 'react'
+import {useEffect, useRef, useState} from 'react'
 import {useLoginMutation} from '@/services/authApi'
 import {useNavigate} from 'react-router-dom'
 import {useAppDispatch} from '@/hooks/hooks'
 import {setPersistCheck, setToken} from '@/features/authSlice'
 import './Login.css'
 
-const initialState = {
-  email: '',
-  password: '',
-}
-
 const SignIn = () => {
-  const [userCredentials, setUserCredentials] = useState(initialState)
   const [checked, setChecked] = useState(false)
   // const [errMsg, setErrMsg] = useState<string | null>(null)
 
   const dispatch = useAppDispatch()
 
-  const {email, password} = userCredentials
-
   const [login, {data, isSuccess, error}] = useLoginMutation()
 
   const navigate = useNavigate()
 
-  const userRef = useRef<HTMLInputElement>(null)
+  const emailInputRef = useRef<HTMLInputElement>(null)
+  const passwordInputRef = useRef<HTMLInputElement>(null)
 
-  useEffect(() => userRef.current?.focus(), [])
+  useEffect(() => emailInputRef.current?.focus(), [])
 
   // useEffect(() => setErrMsg(''), [formValue])
 
   // useEffect(() => console.log(errMsg), [errMsg])
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setUserCredentials({...userCredentials, [e.target.name]: e.target.value})
-  }
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    const email = emailInputRef.current?.value
+    const password = passwordInputRef.current?.value
+
     if (email && password) {
       await login({email, password})
       dispatch(setPersistCheck({PersistCheck: checked}))
@@ -57,7 +49,6 @@ const SignIn = () => {
           token: data.body.token,
         }),
       )
-      setUserCredentials(initialState)
       navigate('/profile')
     }
     if (error) {
@@ -83,9 +74,7 @@ const SignIn = () => {
               type="text "
               id="username"
               name="email"
-              ref={userRef}
-              onChange={handleChange}
-              value={email}
+              ref={emailInputRef}
               required
             />
           </div>
@@ -95,8 +84,7 @@ const SignIn = () => {
               type="password"
               id="password"
               name="password"
-              onChange={handleChange}
-              value={password}
+              ref={passwordInputRef}
               required
             />
           </div>

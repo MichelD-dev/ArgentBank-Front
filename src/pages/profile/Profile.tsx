@@ -1,12 +1,11 @@
 import {useProfileMutation, useUpdateProfileMutation} from '@/services/authApi'
-import {useState, useEffect, ChangeEvent, useRef, FormEvent} from 'react'
+import {useState, useEffect, useRef, FormEvent} from 'react'
 import {editUserName, setUserName} from '@/features/authSlice'
 import {useAppDispatch} from '@/hooks/hooks'
 import styles from './profile.module.scss'
 
 const Profile = () => {
   const [user, setUser] = useState({firstName: '', lastName: ''})
-  const [editedUser, editUser] = useState({firstName: '', lastName: ''})
   const [userEditing, setUserEditing] = useState(false)
 
   const dispatch = useAppDispatch()
@@ -20,9 +19,10 @@ const Profile = () => {
     {data: updatedData, isSuccess: isUpdateSuccess, error: updateError},
   ] = useUpdateProfileMutation()
 
-  const userRef = useRef<HTMLInputElement>(null)
+  const firstNameInputRef = useRef<HTMLInputElement>(null)
+  const lastNameInputRef = useRef<HTMLInputElement>(null)
 
-  useEffect(() => userRef.current?.focus(), [userEditing])
+  useEffect(() => firstNameInputRef.current?.focus(), [userEditing])
 
   useEffect(() => {
     profile('')
@@ -72,25 +72,25 @@ const Profile = () => {
     }
   }, [isUpdateSuccess, updateError])
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    editUser({...editedUser, [e.target.name]: e.target.value})
-  }
-
   const handleUserEdit = () => {
     setUserEditing(userEditing => !userEditing)
   }
 
   const handleUserEditValidation = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setUser(editedUser)
-    await updateProfile(editedUser)
-    dispatch(
-      editUserName({
-        userName: editedUser,
-      }),
-    )
-    setUserEditing(false)
-    editUser({firstName: '', lastName: ''})
+    const firstName = firstNameInputRef.current?.value
+    const lastName = lastNameInputRef.current?.value
+
+    if (firstName && lastName) {
+      setUser({firstName, lastName})
+      await updateProfile({firstName, lastName})
+      dispatch(
+        editUserName({
+          userName: {firstName, lastName},
+        }),
+      )
+      setUserEditing(false)
+    }
   }
 
   return (
@@ -113,9 +113,7 @@ const Profile = () => {
                   type="text "
                   id="firstName"
                   name="firstName"
-                  ref={userRef}
-                  onChange={handleChange}
-                  value={editedUser.firstName}
+                  ref={firstNameInputRef}
                   required
                 />
               </div>
@@ -125,8 +123,7 @@ const Profile = () => {
                   type="text "
                   id="lastName"
                   name="lastName"
-                  onChange={handleChange}
-                  value={editedUser.lastName}
+                  ref={lastNameInputRef}
                   required
                 />
               </div>

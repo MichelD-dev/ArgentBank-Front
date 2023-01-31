@@ -1,20 +1,51 @@
 import {
   createBrowserRouter,
   createRoutesFromElements,
+  Navigate,
   Route,
+  useLocation,
 } from 'react-router-dom'
 import Layout from '../layout/Layout'
 import Error404 from '../pages/error404/Error404'
 import Home from '../pages/home/Home'
 import Profile from '../pages/profile/Profile'
-import Login from '../pages/login/Login'
+import {useAppSelector} from '@/hooks/hooks'
+
+function RequireAuth({children}: {children: JSX.Element}) {
+  const isLogged = useAppSelector(state => state.auth.token)
+  const location = useLocation()
+
+  if (!isLogged) {
+    // Redirect them to the /login page, but save the current location they were
+    // trying to go to when they were redirected. This allows us to send them
+    // along to that page after they login, which is a nicer user experience
+    // than dropping them off on the home page.
+    return <Navigate to="/login" state={{from: location}} replace />
+  }
+
+  return children
+}
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />}>
       <Route index element={<Home />} />
-      <Route path="login" element={<Login />} />
-      <Route path="profile" element={<Profile />} />
+      <Route
+        path="login"
+        element={
+          <RequireAuth>
+            <Profile />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="profile"
+        element={
+          <RequireAuth>
+            <Profile />
+          </RequireAuth>
+        }
+      />
       <Route path="*" element={<Error404 />} />
     </Route>,
   ),
