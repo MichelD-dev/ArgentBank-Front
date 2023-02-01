@@ -8,12 +8,6 @@ import {useValidators} from '../validators/validators'
 import './LoginForm.css'
 
 const LoginForm = () => {
-  // const [errMsg, setErrMsg] = useState<string | null>(null)
-
-  // useEffect(() => setErrMsg(''), [formValue])
-
-  // useEffect(() => console.log(errMsg), [errMsg])
-
   const dispatch = useAppDispatch()
 
   const [login, {data, isSuccess, error}] = useLoginMutation()

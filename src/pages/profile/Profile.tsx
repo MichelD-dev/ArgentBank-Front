@@ -2,8 +2,8 @@ import {useProfileMutation} from '@/services/authApi'
 import {useEffect} from 'react'
 import {getMemoizedUser, setUserName} from '@/features/authSlice'
 import {useAppDispatch, useAppSelector} from '@/hooks/hooks'
+import styles from './profile.module.scss'
 import ProfileForm from '@/forms/profileForm/profileForm'
-// import styles from './profile.module.scss'
 
 const Profile = () => {
   const dispatch = useAppDispatch()
@@ -13,16 +13,18 @@ const Profile = () => {
   const [profile, {data, isSuccess, error}] = useProfileMutation()
 
   useEffect(() => {
-    profile('')
+    profile('') //FIXME
   }, [])
 
   useEffect(() => {
     if (isSuccess && data) {
-      const firstName = data.body.firstName
-      const lastName = data.body.lastName
+      const {firstName, lastName} = data.body
       dispatch(
         setUserName({
-          userName: {firstName, lastName},
+          userName: {
+            firstName,
+            lastName,
+          },
         }),
       )
     }

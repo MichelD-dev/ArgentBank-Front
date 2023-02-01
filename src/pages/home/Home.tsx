@@ -4,12 +4,10 @@ import {useEffect} from 'react'
 import './Home.css'
 
 const Home = () => {
-  const checkboxState = useAppSelector(state => state.auth.persistCheck)
+  const checkboxState = useAppSelector(state => state.auth.persistIsChecked)
 
   useEffect(() => {
-    if (!checkboxState) {
-      persistor.purge()
-    }
+    if (!checkboxState) persistor.purge()
   }, [])
 
   return (

@@ -1,6 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {RootState} from '@/store/store'
 import {PURGE} from 'redux-persist'
+import {createSelector} from 'reselect'
 
 export interface AuthState {
   token: string | null
@@ -8,7 +9,7 @@ export interface AuthState {
     firstName: string | null
     lastName: string | null
   }
-  persistCheck: boolean
+  persistIsChecked: boolean
 }
 
 const initialState: AuthState = {
@@ -17,7 +18,7 @@ const initialState: AuthState = {
     firstName: null,
     lastName: null,
   },
-  persistCheck: false,
+  persistIsChecked: false,
 }
 
 export const authSlice = createSlice({
@@ -27,7 +28,7 @@ export const authSlice = createSlice({
     setToken: (
       state,
       action: PayloadAction<{
-        token: string
+        token: string | null
       }>,
     ) => {
       state.token = action.payload.token
@@ -54,13 +55,8 @@ export const authSlice = createSlice({
     ) => {
       state.userName = action.payload.userName
     },
-    setPersistCheck: (
-      state,
-      action: PayloadAction<{
-        PersistCheck: boolean
-      }>,
-    ) => {
-      state.persistCheck = action.payload.PersistCheck
+    toggleCheck: state => {
+      state.persistIsChecked = !state.persistIsChecked
     },
   },
   extraReducers: builder => {
@@ -68,9 +64,14 @@ export const authSlice = createSlice({
   },
 })
 
-export const selectAuth = (state: RootState) => state.auth
-
-export const {setToken, setUserName, editUserName, setPersistCheck} =
+export const {setToken, setUserName, editUserName, toggleCheck} =
   authSlice.actions
 
 export default authSlice.reducer
+
+export const getMemoizedUser = createSelector(
+  (state: RootState) => state.auth.userName,
+  userName => {
+    return {firstName: userName.firstName, lastName: userName.lastName}
+  },
+)

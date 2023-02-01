@@ -1,6 +1,6 @@
 import {useUpdateProfileMutation} from '@/services/authApi'
 import {useState, useEffect, useRef} from 'react'
-import {editUserName} from '@/features/authSlice'
+import {editUserName, getMemoizedUser} from '@/features/authSlice'
 import {useAppDispatch, useAppSelector} from '@/hooks/hooks'
 import {Field, Form} from 'react-final-form'
 import {useValidators} from '../validators/validators'
@@ -13,7 +13,7 @@ const ProfileForm = () => {
 
   const [updateProfile] = useUpdateProfileMutation()
 
-  const {firstName, lastName} = useAppSelector(state => state.auth.userName)
+  const {firstName, lastName} = useAppSelector(getMemoizedUser)
 
   const userRef = useRef<HTMLInputElement>(null)
 

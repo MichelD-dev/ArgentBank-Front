@@ -27,6 +27,19 @@ function RequireAuth({children}: {children: JSX.Element}) {
   return children
 }
 
+function RequireUnAuth({children}: {children: JSX.Element}) {
+  const isLogged = useAppSelector(state => state.auth.token)
+  const location = useLocation()
+
+  if (isLogged) {
+    console.log(isLogged)
+
+    return <Navigate to="/" state={{from: location}} replace />
+  }
+  console.log(isLogged)
+  return children
+}
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />}>
@@ -34,10 +47,9 @@ const router = createBrowserRouter(
       <Route
         path="login"
         element={
-          // <RequireAuth>
-          // <Profile />
-          <SignIn />
-          // </RequireAuth>
+          <RequireUnAuth>
+            <SignIn />
+          </RequireUnAuth>
         }
       />
       <Route
