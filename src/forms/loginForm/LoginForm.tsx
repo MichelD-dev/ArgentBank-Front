@@ -1,14 +1,18 @@
-import {useEffect, useRef, useState} from 'react'
+import {useEffect, useRef} from 'react'
 import {useLoginMutation} from '@/services/authApi'
 import {useNavigate} from 'react-router-dom'
 import {useAppDispatch} from '@/hooks/hooks'
-import {setPersistCheck, setToken} from '@/features/authSlice'
+import {toggleCheck, setToken} from '@/features/authSlice'
 import {Form, Field} from 'react-final-form'
 import {useValidators} from '../validators/validators'
 import './LoginForm.css'
 
-const SignIn = () => {
-  const [checked, setChecked] = useState(false)
+const LoginForm = () => {
+  // const [errMsg, setErrMsg] = useState<string | null>(null)
+
+  // useEffect(() => setErrMsg(''), [formValue])
+
+  // useEffect(() => console.log(errMsg), [errMsg])
 
   const dispatch = useAppDispatch()
 
@@ -16,34 +20,28 @@ const SignIn = () => {
 
   const navigate = useNavigate()
 
-  const userRef = useRef<HTMLInputElement>(null)
+  const emailInputRef = useRef<HTMLInputElement>(null)
+  const passwordInputRef = useRef<HTMLInputElement>(null)
 
   const {required, validEmail, validPassword, composeValidators} =
     useValidators()
 
-  useEffect(() => userRef.current?.focus(), [])
+  useEffect(() => emailInputRef.current?.focus(), [])
 
-  const handleSubmit = async ({
-    email,
-    password,
-  }: {
-    email: string
-    password: string
-  }) => {
+  const handleSubmit = async () => {
+    const email = emailInputRef.current?.value
+    const password = passwordInputRef.current?.value
+
     if (email && password) {
       await login({email, password})
-      dispatch(setPersistCheck({PersistCheck: checked}))
     } else {
       console.log('Please fill all inputs')
     }
   }
 
-  const handleCheck = () => {
-    setChecked(checked => !checked)
-  }
-
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess && data) {
+      //FIXME pas satisfaisant, si isSucccess, on a des data...
       dispatch(
         setToken({
           token: data.body.token,
@@ -79,7 +77,7 @@ const SignIn = () => {
                     <label>
                       Username<span style={{color: 'red'}}>*</span>
                     </label>
-                    <input type="text " {...input} ref={userRef} />
+                    <input type="text " {...input} ref={emailInputRef} />
                     {meta.error && meta.touched && (
                       <span style={{color: 'red'}}>{meta.error}</span>
                     )}
@@ -94,7 +92,7 @@ const SignIn = () => {
                     <label>
                       Password<span style={{color: 'red'}}>*</span>
                     </label>
-                    <input type="password" {...input} />
+                    <input type="password" {...input} ref={passwordInputRef} />
                     {meta.error && meta.touched && (
                       <span style={{color: 'red'}}>{meta.error}</span>
                     )}
@@ -109,7 +107,7 @@ const SignIn = () => {
                       <input
                         type="checkbox"
                         {...input}
-                        onChange={handleCheck}
+                        onChange={() => dispatch(toggleCheck())}
                       />
                       <label>Remember me</label>
                     </>
@@ -125,4 +123,4 @@ const SignIn = () => {
   )
 }
 
-export default SignIn
+export default LoginForm

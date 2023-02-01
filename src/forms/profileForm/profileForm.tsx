@@ -7,30 +7,28 @@ import {useValidators} from '../validators/validators'
 import styles from './profileForm.module.scss'
 
 const ProfileForm = () => {
-  const [isUserEditingShwon, setIsUserEditingShown] = useState(false)
+  const [isUserEditingShown, setIsUserEditingShown] = useState(false)
 
   const dispatch = useAppDispatch()
 
   const [updateProfile] = useUpdateProfileMutation()
 
-  const {
-    userName: {firstName: test1, lastName: test2},
-  } = useAppSelector(state => state.auth)
+  const {firstName, lastName} = useAppSelector(state => state.auth.userName)
 
   const userRef = useRef<HTMLInputElement>(null)
 
   const {validInput} = useValidators()
 
-  useEffect(() => userRef.current?.focus(), [isUserEditingShwon])
+  useEffect(() => userRef.current?.focus(), [isUserEditingShown])
 
-  const handleUserEditValidation = async (value: {
+  const handleUserEditValidation = async (editedUserName: {
     firstName: string
     lastName: string
   }) => {
-    await updateProfile(value)
+    await updateProfile(editedUserName)
     dispatch(
       editUserName({
-        userName: value,
+        userName: editedUserName,
       }),
     )
     setIsUserEditingShown(false)
@@ -38,33 +36,26 @@ const ProfileForm = () => {
 
   const handleUserEdit = () => setIsUserEditingShown(true)
 
-  const handleEditCancel = () => setIsUserEditingShown(false)
-
   return (
     <>
-      {!isUserEditingShwon && (
+      {!isUserEditingShown && (
         <button className="edit-button" onClick={handleUserEdit}>
           Edit Name
         </button>
       )}
-      {isUserEditingShwon && (
+      {isUserEditingShown && (
         <Form
           onSubmit={handleUserEditValidation}
-          render={({handleSubmit}) => (
+          render={({handleSubmit, form, pristine}) => (
             <form onSubmit={handleSubmit}>
               <div className={styles.inputWrapper}>
                 <Field
                   name="firstName"
                   validate={validInput}
-                  initialValue={test1 ?? ''}
+                  initialValue={firstName ?? ''}
                   render={({input, meta}) => (
                     <div className="input-wrapper">
-                      <input
-                        type="text"
-                        placeholder="firstName"
-                        ref={userRef}
-                        {...input}
-                      />
+                      <input type="text" ref={userRef} {...input} />
                       {meta.error && meta.touched && (
                         <span style={{color: 'red'}}>{meta.error}</span>
                       )}
@@ -74,10 +65,10 @@ const ProfileForm = () => {
                 <Field
                   name="lastName"
                   validate={validInput}
-                  initialValue={test2 ?? ''}
+                  initialValue={lastName ?? ''}
                   render={({input, meta}) => (
                     <div className="input-wrapper">
-                      <input type="text" placeholder="lastName" {...input} />
+                      <input type="text" {...input} />
                       {meta.error && meta.touched && (
                         <span style={{color: 'red'}}>{meta.error}</span>
                       )}
@@ -85,8 +76,10 @@ const ProfileForm = () => {
                   )}
                 />
               </div>
-              <button className="edit-button">Save</button>
-              <button className="edit-button" onClick={handleEditCancel}>
+              <button className="edit-button" disabled={pristine}>
+                Save
+              </button>
+              <button className="edit-button" onClick={() => form.reset()}>
                 Cancel
               </button>
             </form>

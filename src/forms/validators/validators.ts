@@ -16,7 +16,7 @@ export const useValidators = () => {
   }
 
   const validInput: FieldValidator = (value = '') => {
-    return value.match(USER_REGEX) ? '' : 'You must enter a valid entry.'
+    return value.match(USER_REGEX) ? '' : 'You must enter a valid name.'
   }
 
   const composeValidators =
