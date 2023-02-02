@@ -5,14 +5,17 @@ import {NavLink} from 'react-router-dom'
 import './Navbar.css'
 
 const Navbar = () => {
-  const {firstName, lastName} = useAppSelector(state => state.auth.userName)
+  const {
+    token,
+    userName: {firstName},
+  } = useAppSelector(state => state.auth)
 
   const handleLogout = useCallback(async () => await persistor.purge(), [])
 
   return (
     <nav>
       <ul className="main-nav">
-        {!firstName && !lastName ? (
+        {!token ? (
           <li className="main-nav-item">
             <NavLink to="/login">
               <i className="fa fa-user-circle"></i>
@@ -28,7 +31,7 @@ const Navbar = () => {
               </NavLink>
             </li>
             <li className="main-nav-item">
-              <NavLink to="/" onClick={handleLogout}>
+              <NavLink to="/login" onClick={handleLogout}>
                 <i className="fa fa-sign-out"></i>
                 Sign Out
               </NavLink>

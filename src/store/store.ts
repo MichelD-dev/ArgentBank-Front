@@ -18,7 +18,7 @@ const persistConfig = {
   key: 'user',
   version: 1,
   storage,
-  whitelist: ['userName'],
+  whitelist: ['token', 'userName', 'persistIsChecked'],
 }
 
 const persistedReducer = persistReducer(persistConfig, authReducer)
