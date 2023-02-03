@@ -5,6 +5,7 @@ import {useAppDispatch, useAppSelector} from '@/hooks/hooks'
 import {Field, Form} from 'react-final-form'
 import {useValidators} from '../validators/validators'
 import styles from './profileForm.module.scss'
+import { UserType } from '@/types/user.model'
 
 const ProfileForm = () => {
   const [isUserEditingShown, setIsUserEditingShown] = useState(false)
@@ -21,10 +22,7 @@ const ProfileForm = () => {
 
   useEffect(() => userRef.current?.focus(), [isUserEditingShown])
 
-  const handleUserEditValidation = async (editedUserName: {
-    firstName: string
-    lastName: string
-  }) => {
+  const handleUserEditValidation = async (editedUserName: UserType) => {
     await updateProfile(editedUserName)
     dispatch(
       editUserName({
@@ -76,12 +74,14 @@ const ProfileForm = () => {
                   )}
                 />
               </div>
-              <button className="edit-button" disabled={pristine}>
-                Save
-              </button>
-              <button className="edit-button" onClick={() => form.reset()}>
-                Cancel
-              </button>
+              <div className={styles.buttonsWrapper}>
+                <button className={styles.button} disabled={pristine}>
+                  Save
+                </button>
+                <button className={styles.button} onClick={() => form.reset()}>
+                  Cancel
+                </button>
+              </div>
             </form>
           )}
         />

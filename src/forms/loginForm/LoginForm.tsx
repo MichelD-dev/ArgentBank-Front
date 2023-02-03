@@ -5,7 +5,8 @@ import {useAppDispatch} from '@/hooks/hooks'
 import {toggleCheck, setToken} from '@/features/authSlice'
 import {Form, Field} from 'react-final-form'
 import {useValidators} from '../validators/validators'
-import './LoginForm.css'
+import styles from './loginForm.module.scss'
+import {TokenSchema} from '@/types/user.model'
 
 const LoginForm = () => {
   const dispatch = useAppDispatch()
@@ -35,7 +36,16 @@ const LoginForm = () => {
 
   useEffect(() => {
     if (isSuccess && data) {
-      //FIXME pas satisfaisant, si isSucccess, on a des data...
+      const parsedToken = TokenSchema.safeParse(data.body.token)
+
+      if (!parsedToken.success) {
+        console.log(
+          'Error: ' + parsedToken.error.issues[0].code + ':',
+          parsedToken.error.issues[0].message,
+        )
+        return
+      }
+
       dispatch(
         setToken({
           token: data.body.token,
@@ -55,8 +65,8 @@ const LoginForm = () => {
   }, [isSuccess, error])
 
   return (
-    <main className="main bg-dark">
-      <section className="sign-in-content">
+    <main className={styles.main}>
+      <section className={styles.signInContent}>
         <i className="fa fa-user-circle sign-in-icon"></i>
         <h1>Sign In</h1>
         <Form

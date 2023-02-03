@@ -32,11 +32,9 @@ function RequireUnAuth({children}: {children: JSX.Element}) {
   const location = useLocation()
 
   if (isLogged) {
-    console.log(isLogged)
-
     return <Navigate to="/" state={{from: location}} replace />
   }
-  console.log(isLogged)
+
   return children
 }
 

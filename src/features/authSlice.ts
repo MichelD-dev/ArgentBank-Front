@@ -2,9 +2,10 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {RootState} from '@/store/store'
 import {PURGE} from 'redux-persist'
 import {createSelector} from 'reselect'
+import {TokenType, UserType} from '@/types/user.model'
 
 export interface AuthState {
-  token: string | null
+  token: TokenType | null
   userName: {
     firstName: string | null
     lastName: string | null
@@ -28,7 +29,7 @@ export const authSlice = createSlice({
     setToken: (
       state,
       action: PayloadAction<{
-        token: string | null
+        token: TokenType
       }>,
     ) => {
       state.token = action.payload.token
@@ -36,10 +37,7 @@ export const authSlice = createSlice({
     setUserName: (
       state,
       action: PayloadAction<{
-        userName: {
-          firstName: string | null
-          lastName: string | null
-        }
+        userName: UserType
       }>,
     ) => {
       state.userName = action.payload.userName
@@ -47,10 +45,7 @@ export const authSlice = createSlice({
     editUserName: (
       state,
       action: PayloadAction<{
-        userName: {
-          firstName: string | null
-          lastName: string | null
-        }
+        userName: UserType
       }>,
     ) => {
       state.userName = action.payload.userName

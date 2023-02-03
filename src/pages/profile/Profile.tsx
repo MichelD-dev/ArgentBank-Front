@@ -1,30 +1,37 @@
-import {useProfileMutation} from '@/services/authApi'
+import {useGetProfileMutation} from '@/services/authApi'
 import {useEffect} from 'react'
 import {getMemoizedUser, setUserName} from '@/features/authSlice'
 import {useAppDispatch, useAppSelector} from '@/hooks/hooks'
-import styles from './profile.module.scss'
 import ProfileForm from '@/forms/profileForm/profileForm'
+import {UserSchema} from '@/types/user.model'
+import styles from './profile.module.scss'
 
 const Profile = () => {
   const dispatch = useAppDispatch()
 
   const {firstName, lastName} = useAppSelector(getMemoizedUser)
 
-  const [profile, {data, isSuccess, error}] = useProfileMutation()
+  const [getProfile, {data, isSuccess, error}] = useGetProfileMutation()
 
   useEffect(() => {
-    profile('') //FIXME
+    getProfile('')
   }, [])
 
   useEffect(() => {
     if (isSuccess && data) {
-      const {firstName, lastName} = data.body
+      const parsedUser = UserSchema.safeParse(data.body)
+
+      if (!parsedUser.success) {
+        console.log(
+          'Error: ' + parsedUser.error.issues[0].code + ':',
+          parsedUser.error.issues[0].message,
+        )
+        return
+      }
+
       dispatch(
         setUserName({
-          userName: {
-            firstName,
-            lastName,
-          },
+          userName: data.body,
         }),
       )
     }
