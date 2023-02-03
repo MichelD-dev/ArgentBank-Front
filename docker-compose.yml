@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  frontend-prod:
+    build:
+      context: .
+      target: development
+    ports:
+      - '5173:5173'
+    depends_on:
+      - server-backend
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: yarn dev
+
+  server-backend:
+    build:
+      context: ../ArgentBank-back
+    volumes:
+      - ../ArgentBank-back:/app
+    ports:
+      - '3001:3001'
