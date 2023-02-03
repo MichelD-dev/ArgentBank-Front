@@ -1,4 +1,5 @@
 import {RootState} from '@/store/store'
+import { TokenType } from '@/types/user.model'
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 
 export const authApi = createApi({
@@ -13,7 +14,7 @@ export const authApi = createApi({
     },
   }),
   endpoints: builder => ({
-    login: builder.mutation<{body: {token: string}}, Credentials>({
+    login: builder.mutation<{body: {token: TokenType}}, Credentials>({
       query: credentials => {
         return {
           url: 'login',
@@ -22,7 +23,7 @@ export const authApi = createApi({
         }
       },
     }),
-    profile: builder.mutation({
+    getProfile: builder.mutation({
       query: () => {
         return {
           url: 'profile',
@@ -52,13 +53,6 @@ export interface Names {
   firstName: string
   lastName: string
 }
-// User Profile Data Interface
-export interface ProfileDatas extends Names {
-  email: string
-  createdAt: string
-  updatedAt: string
-  id: string
-}
 
-export const {useLoginMutation, useProfileMutation, useUpdateProfileMutation} =
+export const {useLoginMutation, useGetProfileMutation, useUpdateProfileMutation} =
   authApi
