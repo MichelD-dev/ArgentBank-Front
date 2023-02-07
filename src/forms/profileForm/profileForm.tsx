@@ -7,22 +7,55 @@ import {useValidators} from '../validators/validators'
 import type {UserType} from '@/types/user.model'
 import styles from './profileForm.module.scss'
 
+/**
+ * Profile Form component to handle user name update
+ *
+ * @returns {JSX.Element} form component
+ */
 const ProfileForm = () => {
+  /**
+   * State variable to show/hide edit name form
+   */
   const [isUserEditingShown, setIsUserEditingShown] = useState(false)
 
+  /**
+   * Store dispatch hook to dispatch actions to the store
+   */
   const dispatch = useAppDispatch()
 
+  /**
+   * Mutation hook to update user name
+   */
   const [updateProfile] = useUpdateProfileMutation()
 
+  /**
+   * Store hook to retrieve user data from the store
+   */
   const {firstName, lastName} = useAppSelector(getMemoizedUser)
 
+  /**
+   * Ref hook to the first name form input
+   */
   const userRef = useRef<HTMLInputElement>(null)
 
+  /**
+   * Validators hook to validate form inputs
+   */
   const {validInput} = useValidators()
 
+  /**
+   * Use effect hook to set focus on input field
+   */
   useEffect(() => userRef.current?.focus(), [isUserEditingShown])
 
-  const handleUserEditValidation = async (editedUserName: UserType) => {
+  /**
+   * Handles user edit validation and dispatches action to update user name in store
+   * @param {UserType} editedUserName - new user name
+   * @returns {Promise<void>}
+   */
+  const handleUserEditValidation = async (
+    editedUserName: UserType,
+  ): Promise<void> => {
     await updateProfile(editedUserName)
     dispatch(
       editUserName({
@@ -32,6 +65,9 @@ const ProfileForm = () => {
     setIsUserEditingShown(false)
   }
 
+  /**
+   * Handles show/hide edit form event
+   */
   const handleUserEdit = () => setIsUserEditingShown(true)
 
   return (
@@ -78,7 +114,10 @@ const ProfileForm = () => {
                 <button className={styles.editButton} disabled={pristine}>
                   Save
                 </button>
-                <button className={styles.editButton} onClick={() => form.reset()}>
+                <button
+                  className={styles.editButton}
+                  onClick={() => form.reset()}
+                >
                   Cancel
                 </button>
               </div>

@@ -1,7 +1,20 @@
 import {RootState} from '@/store/store'
-import type { TokenType, UserCredentialsType, UserNameType } from '@/types/user.model'
+import type {
+  TokenType,
+  UserCredentialsType,
+  UserNameType,
+} from '@/types/user.model'
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 
+/**
+ * Creates an API for authentication.
+ * @param {Object} options - The options to configure the API.
+ * @param {string} options.reducerPath - The path to the API's reducer.
+ * @param {Object} options.baseQuery - The base query to make API calls.
+ * @param {string} options.baseQuery.baseUrl - The base URL to make API calls.
+ * @param {function} options.baseQuery.prepareHeaders - A function that prepares the API request headers.
+ * @param {Object} options.endpoints - The API endpoints to be used.
+ */
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
@@ -14,6 +27,12 @@ export const authApi = createApi({
     },
   }),
   endpoints: builder => ({
+    /**
+     * Logs in the user.
+     * @param {Object} credentials - The user's credentials.
+     * @param {string} credentials.email - The user's email address.
+     * @param {string} credentials.password - The user's password.
+     */
     login: builder.mutation<{body: {token: TokenType}}, UserCredentialsType>({
       query: credentials => {
         return {
@@ -23,6 +42,9 @@ export const authApi = createApi({
         }
       },
     }),
+    /**
+     * Gets the profile information of the user.
+     */
     getProfile: builder.mutation({
       query: () => {
         return {
@@ -31,6 +53,12 @@ export const authApi = createApi({
         }
       },
     }),
+    /**
+     * Updates the profile information of the user.
+     * @param {Object} names - The user's updated names.
+     * @param {string} names.firstName - The user's updated first name.
+     * @param {string} names.lastName - The user's updated last name.
+     */
     updateProfile: builder.mutation<UserNameType, UserNameType>({
       query: names => {
         return {
@@ -43,5 +71,14 @@ export const authApi = createApi({
   }),
 })
 
-export const {useLoginMutation, useGetProfileMutation, useUpdateProfileMutation} =
-  authApi
+/**
+ * The authApi object exports the following properties:
+ * useLoginMutation: A hook for making a login mutation.
+ * useGetProfileMutation: A hook for making a get profile mutation.
+ * useUpdateProfileMutation: A hook for making an update profile mutation.
+ */
+export const {
+  useLoginMutation,
+  useGetProfileMutation,
+  useUpdateProfileMutation,
+} = authApi

@@ -6,17 +6,37 @@ import ProfileForm from '@/forms/profileForm/profileForm'
 import {UserSchema} from '@/types/user.model'
 import styles from './profile.module.scss'
 
+/**
+ * Profile component used to display user information
+ *
+ * @returns {JSX.Element} JSX of the profile component
+ */
 const Profile = () => {
+  /**
+   * Store dispatch hook to dispatch actions to the store
+   */
   const dispatch = useAppDispatch()
 
+  /**
+   * Get the user name from the Redux store
+   */
   const {firstName, lastName} = useAppSelector(getMemoizedUser)
 
+  /**
+   * Get profile information from the `useGetProfileMutation` hook
+   */
   const [getProfile, {data, isSuccess, error}] = useGetProfileMutation()
 
+  /**
+   * Get profile information on component mount
+   */
   useEffect(() => {
     getProfile('')
   }, [])
 
+  /**
+   * Set the profile information in the Redux store if there is no error
+   */
   useEffect(() => {
     if (isSuccess && data) {
       const parsedUser = UserSchema.safeParse(data.body)

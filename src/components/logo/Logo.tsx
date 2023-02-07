@@ -1,6 +1,11 @@
 import {Link} from 'react-router-dom'
 import styles from './Logo.module.scss'
 
+/**
+* Logo component of Argent Bank
+*
+@returns {ReactElement} The Logo component
+*/
 const Logo = () => {
   return (
     <Link className={styles.mainNavLogo} to="/">

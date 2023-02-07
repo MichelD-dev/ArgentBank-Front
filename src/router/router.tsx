@@ -12,6 +12,14 @@ import Profile from '../pages/profile/Profile'
 import {useAppSelector} from '@/hooks/hooks'
 import SignIn from '@/forms/loginForm/LoginForm'
 
+/**
+ * RequireAuth is a higher-order component (HOC) that adds authentication functionality to a component.
+ * If a user is not logged in and try to go to the profile page, it will redirect them to the login page.
+ *
+ * @param {Object} props
+ * @param {JSX.Element} props.children The component to wrap with authentication functionality.
+ * @returns {JSX.Element} The wrapped component.
+ */
 function RequireAuth({children}: {children: JSX.Element}) {
   const isLogged = useAppSelector(state => state.auth.token)
   const location = useLocation()
@@ -27,6 +35,14 @@ function RequireAuth({children}: {children: JSX.Element}) {
   return children
 }
 
+/**
+ * RequireUnAuth is a higher-order component (HOC) that adds authentication functionality to a component.
+ * If a user is logged in and try to go to the login page, it will redirect them to the home page.
+ *
+ * @param {Object} props
+ * @param {JSX.Element} props.children The component to wrap with authentication functionality.
+ * @returns {JSX.Element} The wrapped component.
+ */
 function RequireUnAuth({children}: {children: JSX.Element}) {
   const isLogged = useAppSelector(state => state.auth.token)
   const location = useLocation()

@@ -1,5 +1,10 @@
 import styles from './Home.module.scss'
 
+/**
+ * Home page.
+ *
+ * @returns {JSX.Element} The Home component
+ */
 const Home = () => {
   return (
     <main>
@@ -9,7 +14,9 @@ const Home = () => {
           <p className={styles.subtitle}>No fees.</p>
           <p className={styles.subtitle}>No minimum deposit.</p>
           <p className={styles.subtitle}>High interest rates.</p>
-          <p className={styles.text}>Open a savings account with Argent Bank today!</p>
+          <p className={styles.text}>
+            Open a savings account with Argent Bank today!
+          </p>
         </section>
       </div>
       <section className={styles.features}>

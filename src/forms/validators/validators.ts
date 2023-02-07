@@ -4,6 +4,10 @@ export const USER_REGEX = /^[a-zA-Z]+(?:([',. -][a-zA-Z ])?[a-zA-Z])$/
 
 type FieldValidator = (value?: string) => string
 
+/**
+* useValidators returns an object with utility functions for input validation.
+@returns {Object} Object with utility functions for input validation.
+*/
 export const useValidators = () => {
   const required: FieldValidator = (value = '') => (value ? '' : 'Required')
 
@@ -19,6 +23,11 @@ export const useValidators = () => {
     return value.match(USER_REGEX) ? '' : 'You must enter a valid name.'
   }
 
+  /**
+* Composes multiple validation functions into a single validation function.
+@param {...FieldValidator} validators
+@returns {FieldValidator}
+*/
   const composeValidators =
     (...validators: FieldValidator[]) =>
     (value: string) =>

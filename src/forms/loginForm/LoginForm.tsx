@@ -8,22 +8,43 @@ import {useValidators} from '../validators/validators'
 import {TokenSchema} from '@/types/user.model'
 import styles from './LoginForm.module.scss'
 
+/**
+ * LoginForm component
+ *
+ * @returns {JSX.Element} The LoginForm component
+ */
 const LoginForm = () => {
+  /**
+   * Store dispatch hook to dispatch actions to the store
+   */
   const dispatch = useAppDispatch()
 
+  // Use the `useLoginMutation` hook to perform a login mutation.
   const [login, {data, isSuccess, error}] = useLoginMutation()
 
   const navigate = useNavigate()
 
+  /**
+   * Ref hook to the email form input
+   */
   const emailInputRef = useRef<HTMLInputElement>(null)
 
+  /**
+   * Ref hook to the password form input
+   */
   const passwordInputRef = useRef<HTMLInputElement>(null)
 
   const {required, validEmail, validPassword, composeValidators} =
     useValidators()
 
+  /**
+   * Focuses the email input on component mount
+   */
   useEffect(() => emailInputRef.current?.focus(), [])
 
+  /**
+   * Handles the form submission by calling the `login` function with the email and password.
+   */
   const handleSubmit = async () => {
     const email = emailInputRef.current?.value
     const password = passwordInputRef.current?.value
@@ -35,6 +56,9 @@ const LoginForm = () => {
     }
   }
 
+  /**
+   * Handles the success or error of the login mutation, and dispatch setToken with the retrieved token if success, then navigate to 'profile' page
+   */
   useEffect(() => {
     if (isSuccess && data) {
       const parsedToken = TokenSchema.safeParse(data.body.token)
