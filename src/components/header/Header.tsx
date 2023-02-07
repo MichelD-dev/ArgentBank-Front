@@ -1,9 +1,9 @@
 import {Logo, Navbar} from '@/components'
-import './Header.css'
+import styles from './Header.module.scss'
 
 const Header = () => {
   return (
-    <nav className="main-nav">
+    <nav className={styles.mainNav}>
       <Logo />
       <Navbar />
     </nav>

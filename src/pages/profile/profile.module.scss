@@ -2,11 +2,11 @@
   flex: 1;
 }
 
-.bg-dark {
+.bgDark {
   background-color: #12002b;
 }
 
-.sr-only {
+.srOnly {
   border: 0 !important;
   clip: rect(1px, 1px, 1px, 1px) !important; /* 1 */
   -webkit-clip-path: inset(50%) !important;
@@ -20,37 +20,37 @@
   white-space: nowrap !important; /* 3 */
 }
 
-.main-nav {
+.mainNav {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 5px 20px;
 }
 
-.main-nav a {
+.mainNav a {
   font-weight: bold;
   color: #2c3e50;
 }
 
-.main-nav a.router-link-exact-active {
+.mainNav a.router-link-exact-active {
   color: #42b983;
 }
 
-.main-nav-item {
+.mainNavItem {
   text-decoration: none;
   margin-right: 0.5rem;
 }
 
-.main-nav-item:hover {
+.mainNavItem:hover {
   text-decoration: underline;
 }
 
-.main-nav-logo {
+.mainNavLogo {
   display: flex;
   align-items: center;
 }
 
-.main-nav-logo-image {
+.mainNavLogoImage {
   max-width: 100%;
   width: 200px;
 }
@@ -64,7 +64,7 @@
   position: relative;
 }
 
-.hero-content {
+.heroContent {
   position: relative;
   top: 2rem;
   width: 200px;
@@ -72,17 +72,15 @@
   padding: 2rem;
   text-align: left;
   margin: 0 auto;
-}
-
-.hero-content .subtitle {
-  font-weight: bold;
-  font-size: 1rem;
-  margin: 0;
-}
-
-.hero-content .text {
-  margin-bottom: 0;
-  font-size: 0.9rem;
+  .subtitle {
+    font-weight: bold;
+    font-size: 1rem;
+    margin: 0;
+  }
+  .text {
+    margin-bottom: 0;
+    font-size: 0.9rem;
+  }
 }
 
 @media (min-width: 920px) {
@@ -91,20 +89,18 @@
     background-position: 0% 33%;
   }
 
-  .hero-content {
+  .heroContent {
     position: absolute;
     top: 50px;
     right: 50px;
     width: 300px;
     margin: 2rem;
-  }
-
-  .hero-content .subtitle {
-    font-size: 1.5rem;
-  }
-
-  .hero-content .text {
-    font-size: 1.2rem;
+    .subtitle {
+      font-size: 1.5rem;
+    }
+    .text {
+      font-size: 1.2rem;
+    }
   }
 }
 
@@ -119,26 +115,26 @@
   }
 }
 
-.feature-icon {
+.featureIcon {
   width: 100px;
   border: 10px solid #00bc77;
   border-radius: 50%;
   padding: 1rem;
 }
 
-.feature-item {
+.featureItem {
   flex: 1;
   padding: 2.5rem;
 }
 
-.feature-item-title {
+.featureItemTitle {
   color: #222;
   font-size: 1.25rem;
   font-weight: bold;
   margin-bottom: 0.5rem;
 }
 
-.sign-in-button {
+.signInButton {
   display: block;
   width: 100%;
   padding: 8px;
@@ -150,7 +146,7 @@
   color: #fff;
 }
 
-.sign-in-content {
+.signInContent {
   box-sizing: border-box;
   background-color: white;
   width: 300px;
@@ -159,16 +155,15 @@
   padding: 2rem;
 }
 
-.sign-in-icon {
+.signInIcon {
   font-size: 5rem;
 }
 
-.input-remember {
+.inputRemember {
   display: flex;
-}
-
-.input-remember label {
-  margin-left: 0.25rem;
+  label {
+    margin-left: 0.25rem;
+  }
 }
 
 .inputWrapper {
@@ -177,17 +172,16 @@
   text-align: left;
   margin-bottom: 1rem;
   div {
-    margin: 1.5rem ;
+    margin: 1.5rem;
   }
   input {
     padding: 5px;
     font-size: 1.2rem;
     line-height: 2rem;
   }
-}
-
-.input-wrapper label {
-  font-weight: bold;
+  label {
+    font-weight: bold;
+  }
 }
 
 .footer {
@@ -197,7 +191,7 @@
   padding: 2rem 0 1.5rem;
 }
 
-.footer-text {
+.footerText {
   margin: 0;
   padding: 0;
 }
@@ -217,36 +211,35 @@
   margin-bottom: 2rem;
 }
 
-.account-amount {
+.accountAmount {
   margin: 0;
   font-size: 2.5rem;
   font-weight: bold;
 }
 
-.account-amount-description {
+.accountAmountDescription {
   margin: 0;
 }
 
-.account-title {
+.accountTitle {
   margin: 0;
   padding: 0;
   font-size: 1rem;
   font-weight: normal;
 }
 
-.account-content-wrapper {
+.accountContentWrapper {
   width: 100%;
   flex: 1;
 }
 
-.edit-button {
+.editButton {
   border-color: #00bc77;
   background-color: #00bc77;
   color: #fff;
   font-weight: bold;
   padding: 10px;
   margin-right: 2rem;
-  cursor: pointer;
 }
 
 .header {
@@ -254,7 +247,7 @@
   margin-bottom: 2rem;
 }
 
-.transaction-button {
+.transactionButton {
   display: block;
   width: 100%;
   padding: 8px;
@@ -264,7 +257,6 @@
   border-color: #00bc77;
   background-color: #00bc77;
   color: #fff;
-  cursor: pointer;
 }
 
 @media (min-width: 720px) {
@@ -272,11 +264,11 @@
     flex-direction: row;
   }
 
-  .account-content-wrapper.cta {
+  .accountContentWrapper.cta {
     flex: 0;
   }
 
-  .transaction-button {
+  .transactioButton {
     width: 200px;
   }
 }

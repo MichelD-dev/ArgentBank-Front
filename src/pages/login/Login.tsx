@@ -1,11 +1,11 @@
 import LoginForm from '@/forms/loginForm/LoginForm'
-import './Login.css'
+import styles from './Login.module.scss'
 
 const SignIn = () => {
   return (
-    <main className="main bg-dark">
-      <section className="sign-in-content">
-        <i className="fa fa-user-circle sign-in-icon"></i>
+    <main className={`${styles.main} ${styles.bgDark}`}>
+      <section className={styles.signInContent}>
+        <i className={`fa fa-user-circle ${styles.signInIcon}`}></i>
         <h1>Sign In</h1>
         <LoginForm />
       </section>

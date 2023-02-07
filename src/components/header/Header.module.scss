@@ -1,0 +1,11 @@
+.mainNav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 20px;
+}
+
+.mainNav a {
+  font-weight: bold;
+  color: #2c3e50;
+}

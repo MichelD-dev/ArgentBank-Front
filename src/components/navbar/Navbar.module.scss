@@ -1,4 +1,4 @@
-.main-nav {
+.mainNav {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -6,30 +6,30 @@
   list-style-type: none;
 }
 
-.main-nav a {
+.mainNav a {
   font-weight: bold;
   color: #2c3e50;
 }
 
-.main-nav a.router-link-exact-active {
+.mainNav a.router-link-exact-active {
   color: #42b983;
 }
 
-.main-nav-item {
+.mainNavItem {
   text-decoration: none;
   margin-right: 0.5rem;
 }
 
-.main-nav-item.active {
+.mainNavItem.active {
   text-decoration: underline;
 }
 
-.main-nav-logo {
+.mainNavLogo {
   display: flex;
   align-items: center;
 }
 
-.main-nav-logo-image {
+.mainNavLogoImage {
   max-width: 100%;
   width: 200px;
 }

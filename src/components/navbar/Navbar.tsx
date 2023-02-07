@@ -2,7 +2,7 @@ import {useAppSelector} from '@/hooks/hooks'
 import {persistor} from '@/store/store'
 import {useCallback} from 'react'
 import {NavLink} from 'react-router-dom'
-import './Navbar.css'
+import styles from './Navbar.module.scss'
 
 const Navbar = () => {
   const {
@@ -14,9 +14,9 @@ const Navbar = () => {
 
   return (
     <nav>
-      <ul className="main-nav">
+      <ul className={styles.mainNav}>
         {!token ? (
-          <li className="main-nav-item">
+          <li className={styles.mainNavItem}>
             <NavLink to="/login">
               <i className="fa fa-user-circle"></i>
               Sign In
@@ -24,13 +24,13 @@ const Navbar = () => {
           </li>
         ) : (
           <>
-            <li className="main-nav-item">
+            <li className={styles.mainNavItem}>
               <NavLink to="/profile">
                 <i className="fa fa-user-circle"></i>
                 {firstName}
               </NavLink>
             </li>
-            <li className="main-nav-item">
+            <li className={styles.mainNavItem}>
               <NavLink to="/login" onClick={handleLogout}>
                 <i className="fa fa-sign-out"></i>
                 Sign Out

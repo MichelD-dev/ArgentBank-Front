@@ -6,7 +6,7 @@ import {toggleCheck, setToken} from '@/features/authSlice'
 import {Form, Field} from 'react-final-form'
 import {useValidators} from '../validators/validators'
 import {TokenSchema} from '@/types/user.model'
-import styles from './loginForm.module.scss'
+import styles from './LoginForm.module.scss'
 
 const LoginForm = () => {
   const dispatch = useAppDispatch()
@@ -16,42 +16,44 @@ const LoginForm = () => {
   const navigate = useNavigate()
 
   const emailInputRef = useRef<HTMLInputElement>(null)
+
   const passwordInputRef = useRef<HTMLInputElement>(null)
 
   const {required, validEmail, validPassword, composeValidators} =
     useValidators()
 
-  const email = emailInputRef.current?.value
-  const password = passwordInputRef.current?.value
-
   useEffect(() => emailInputRef.current?.focus(), [])
 
   const handleSubmit = async () => {
+    const email = emailInputRef.current?.value
+    const password = passwordInputRef.current?.value
+
     if (email && password) {
       await login({email, password})
+    } else {
+      console.log('Please fill all inputs')
     }
   }
 
   useEffect(() => {
-    if (!isSuccess || !data) return
+    if (isSuccess && data) {
+      const parsedToken = TokenSchema.safeParse(data.body.token)
 
-    const parsedToken = TokenSchema.safeParse(data.body.token)
+      if (!parsedToken.success) {
+        console.log(
+          'Error: ' + parsedToken.error.issues[0].code + ':',
+          parsedToken.error.issues[0].message,
+        )
+        return
+      }
 
-    if (!parsedToken.success) {
-      console.log(
-        'Error: ' + parsedToken.error.issues[0].code + ':',
-        parsedToken.error.issues[0].message,
+      dispatch(
+        setToken({
+          token: data.body.token,
+        }),
       )
-      return
+      navigate('/profile')
     }
-
-    dispatch(
-      setToken({
-        token: data.body.token,
-      }),
-    )
-    navigate('/profile')
-
     if (error) {
       if ('status' in error) {
         const errMsg =
@@ -66,7 +68,7 @@ const LoginForm = () => {
   return (
     <main className={styles.main}>
       <section className={styles.signInContent}>
-        <i className="fa fa-user-circle sign-in-icon"></i>
+        <i className={`fa fa-user-circle ${styles.signInIcon}`}></i>
         <h1>Sign In</h1>
         <Form
           onSubmit={handleSubmit}
@@ -76,7 +78,7 @@ const LoginForm = () => {
                 name="email"
                 validate={composeValidators(required, validEmail)}
                 render={({input, meta}) => (
-                  <div className="input-wrapper">
+                  <div className={styles.inputWrapper}>
                     <label>
                       Username<span style={{color: 'red'}}>*</span>
                     </label>
@@ -91,7 +93,7 @@ const LoginForm = () => {
                 name="password"
                 validate={composeValidators(required, validPassword)}
                 render={({input, meta}) => (
-                  <div className="input-wrapper">
+                  <div className={styles.inputWrapper}>
                     <label>
                       Password<span style={{color: 'red'}}>*</span>
                     </label>
@@ -102,7 +104,7 @@ const LoginForm = () => {
                   </div>
                 )}
               />
-              <div className="input-remember">
+              <div className={styles.inputRemember}>
                 <Field
                   name="checkbox"
                   render={({input}) => (
@@ -117,7 +119,7 @@ const LoginForm = () => {
                   )}
                 />
               </div>
-              <button className="sign-in-button">Sign In</button>
+              <button className={styles.signInButton}>Sign In</button>
             </form>
           )}
         />

@@ -4,7 +4,7 @@ import {editUserName, getMemoizedUser} from '@/features/authSlice'
 import {useAppDispatch, useAppSelector} from '@/hooks/hooks'
 import {Field, Form} from 'react-final-form'
 import {useValidators} from '../validators/validators'
-import type { UserType } from '@/types/user.model'
+import type {UserType} from '@/types/user.model'
 import styles from './profileForm.module.scss'
 
 const ProfileForm = () => {
@@ -37,7 +37,7 @@ const ProfileForm = () => {
   return (
     <>
       {!isUserEditingShown && (
-        <button className="edit-button" onClick={handleUserEdit}>
+        <button className={styles.editButton} onClick={handleUserEdit}>
           Edit Name
         </button>
       )}
@@ -52,7 +52,7 @@ const ProfileForm = () => {
                   validate={validInput}
                   initialValue={firstName ?? ''}
                   render={({input, meta}) => (
-                    <div className="input-wrapper">
+                    <div className={styles.inputWrapper}>
                       <input type="text" ref={userRef} {...input} />
                       {meta.error && meta.touched && (
                         <span style={{color: 'red'}}>{meta.error}</span>
@@ -65,7 +65,7 @@ const ProfileForm = () => {
                   validate={validInput}
                   initialValue={lastName ?? ''}
                   render={({input, meta}) => (
-                    <div className="input-wrapper">
+                    <div className={styles.inputWrapper}>
                       <input type="text" {...input} />
                       {meta.error && meta.touched && (
                         <span style={{color: 'red'}}>{meta.error}</span>
@@ -74,11 +74,11 @@ const ProfileForm = () => {
                   )}
                 />
               </div>
-              <div className={styles.buttonsWrapper}>
-                <button className={styles.button} disabled={pristine}>
+              <div className={styles.inputWrapper}>
+                <button className={styles.editButton} disabled={pristine}>
                   Save
                 </button>
-                <button className={styles.button} onClick={() => form.reset()}>
+                <button className={styles.editButton} onClick={() => form.reset()}>
                   Cancel
                 </button>
               </div>
