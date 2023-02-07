@@ -1,7 +1,15 @@
 swagger: '2.0'
 info:
   title: Bank Argent API documentation
-  description: Contains all available API endpoints in this codebase
+  description: |-
+    API for transactions that must allow users to:
+    - view all their transactions for the current month
+    - view the details of a transaction in another view
+    - add, modify or delete information on a transaction
+
+    Some useful links:
+    - [Bank Argent repository](https://github.com/MichelD-dev/ArgentBank-Front)
+    - [User API definition for project](https://github.com/MichelD-dev/ArgentBank-Front/blob/main/swagger.yaml)
   version: '1.0.0'
   termsOfService: 'http://swagger.io/terms/'
 host: localhost:3001
@@ -121,6 +129,11 @@ paths:
       summary: Transactions API
       description: API for Transactions
       parameters:
+        - in: path
+          name: user_id
+          description: User identification
+          required: true
+          type: string
         - in: header
           name: Authorization
           description: Attach Bearer JWT token
@@ -147,6 +160,11 @@ paths:
       summary: Transaction API
       description: API to post a transaction
       parameters:
+        - in: path
+          name: user_id
+          description: User identification
+          required: true
+          type: string
         - in: header
           name: Authorization
           description: Attach Bearer JWT token
@@ -176,6 +194,16 @@ paths:
       summary: Transaction API
       description: API to get a specific transaction details
       parameters:
+        - in: path
+          name: user_id
+          description: User identification
+          required: true
+          type: string
+        - in: path
+          name: transaction_id
+          description: Transaction identification
+          required: true
+          type: string
         - in: header
           name: Authorization
           description: Attach Bearer JWT token
@@ -202,6 +230,16 @@ paths:
       summary: Transaction API
       description: API for updating a user transaction
       parameters:
+        - in: path
+          name: user_id
+          description: User identification
+          required: true
+          type: string
+        - in: path
+          name: transaction_id
+          description: Transaction identification
+          required: true
+          type: string
         - in: header
           name: Authorization
           description: Attach Bearer JWT token
@@ -234,6 +272,16 @@ paths:
       summary: Transaction API
       description: API for deleting a user transaction
       parameters:
+        - in: path
+          name: user_id
+          description: User identification
+          required: true
+          type: string
+        - in: path
+          name: transaction_id
+          description: Transaction identification
+          required: true
+          type: string
         - in: header
           name: Authorization
           description: Attach Bearer JWT token
