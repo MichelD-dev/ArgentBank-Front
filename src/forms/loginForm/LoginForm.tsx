@@ -1,4 +1,4 @@
-import {useEffect, useRef} from 'react'
+import {useEffect, useRef, useState} from 'react'
 import {useLoginMutation} from '@/services/authApi'
 import {useNavigate} from 'react-router-dom'
 import {useAppDispatch} from '@/hooks/hooks'
@@ -14,6 +14,8 @@ import styles from './LoginForm.module.scss'
  * @returns {JSX.Element} The LoginForm component
  */
 const LoginForm = () => {
+  const [invalidEmailMsg, setInvalidEmailMsg] = useState('')
+  const [invalidPasswordMsg, setInvalidPasswordMsg] = useState('')
   /**
    * Store dispatch hook to dispatch actions to the store
    */
@@ -82,7 +84,16 @@ const LoginForm = () => {
       if ('status' in error) {
         const errMsg =
           'error' in error ? error.error : JSON.stringify(error.data)
-        console.log(errMsg)
+
+        if (errMsg.includes('User')) {
+          setInvalidEmailMsg(JSON.parse(errMsg).message)
+          setInvalidPasswordMsg('')
+        }
+
+        if (errMsg.includes('Password')) {
+          setInvalidPasswordMsg(JSON.parse(errMsg).message)
+          setInvalidEmailMsg('')
+        }
       } else {
         console.log(error.message)
       }
@@ -110,6 +121,9 @@ const LoginForm = () => {
                     {meta.error && meta.touched && (
                       <span style={{color: 'red'}}>{meta.error}</span>
                     )}
+                    {invalidEmailMsg && (
+                      <span style={{color: 'red'}}>{invalidEmailMsg}</span>
+                    )}
                   </div>
                 )}
               />
@@ -124,6 +138,9 @@ const LoginForm = () => {
                     <input type="password" {...input} ref={passwordInputRef} />
                     {meta.error && meta.touched && (
                       <span style={{color: 'red'}}>{meta.error}</span>
+                    )}
+                    {invalidPasswordMsg && (
+                      <span style={{color: 'red'}}>{invalidPasswordMsg}</span>
                     )}
                   </div>
                 )}

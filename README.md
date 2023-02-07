@@ -19,7 +19,7 @@ Argent Bank utilise le stack technique suivant:
 
 Assurez vous que vous disposez bien de l'ensemble des packages, ainsi que de
 leur version. Vous pouvez vérifier celle-ci en entrant les commandes suivantes
-dans votre terminal.
+dans votre terminal:
 
 ```bash
 # Vérifiez la version de Node.js
@@ -169,11 +169,11 @@ avec live-server.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+---
+
 ## Contact:
 
 Michel DELAUNAY - delaunaymichel@hotmail.fr
-
----
 
 ## Linkedin:
 
