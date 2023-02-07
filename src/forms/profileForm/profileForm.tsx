@@ -4,8 +4,8 @@ import {editUserName, getMemoizedUser} from '@/features/authSlice'
 import {useAppDispatch, useAppSelector} from '@/hooks/hooks'
 import {Field, Form} from 'react-final-form'
 import {useValidators} from '../validators/validators'
+import type { UserType } from '@/types/user.model'
 import styles from './profileForm.module.scss'
-import { UserType } from '@/types/user.model'
 
 const ProfileForm = () => {
   const [isUserEditingShown, setIsUserEditingShown] = useState(false)

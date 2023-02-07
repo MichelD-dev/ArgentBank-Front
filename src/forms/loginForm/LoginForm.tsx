@@ -5,8 +5,8 @@ import {useAppDispatch} from '@/hooks/hooks'
 import {toggleCheck, setToken} from '@/features/authSlice'
 import {Form, Field} from 'react-final-form'
 import {useValidators} from '../validators/validators'
-import styles from './loginForm.module.scss'
 import {TokenSchema} from '@/types/user.model'
+import styles from './loginForm.module.scss'
 
 const LoginForm = () => {
   const dispatch = useAppDispatch()
@@ -21,38 +21,37 @@ const LoginForm = () => {
   const {required, validEmail, validPassword, composeValidators} =
     useValidators()
 
+  const email = emailInputRef.current?.value
+  const password = passwordInputRef.current?.value
+
   useEffect(() => emailInputRef.current?.focus(), [])
 
   const handleSubmit = async () => {
-    const email = emailInputRef.current?.value
-    const password = passwordInputRef.current?.value
-
     if (email && password) {
       await login({email, password})
-    } else {
-      console.log('Please fill all inputs')
     }
   }
 
   useEffect(() => {
-    if (isSuccess && data) {
-      const parsedToken = TokenSchema.safeParse(data.body.token)
+    if (!isSuccess || !data) return
 
-      if (!parsedToken.success) {
-        console.log(
-          'Error: ' + parsedToken.error.issues[0].code + ':',
-          parsedToken.error.issues[0].message,
-        )
-        return
-      }
+    const parsedToken = TokenSchema.safeParse(data.body.token)
 
-      dispatch(
-        setToken({
-          token: data.body.token,
-        }),
+    if (!parsedToken.success) {
+      console.log(
+        'Error: ' + parsedToken.error.issues[0].code + ':',
+        parsedToken.error.issues[0].message,
       )
-      navigate('/profile')
+      return
     }
+
+    dispatch(
+      setToken({
+        token: data.body.token,
+      }),
+    )
+    navigate('/profile')
+
     if (error) {
       if ('status' in error) {
         const errMsg =

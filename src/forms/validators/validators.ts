@@ -1,6 +1,6 @@
-const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
-const PWD_REGEX = /^(?=.*\d)(?=.*[a-z]).{8,32}$/
-const USER_REGEX = /^[a-zA-Z]+(?:([',. -][a-zA-Z ])?[a-zA-Z])$/
+export const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
+export const PWD_REGEX = /^(?=.*\d)(?=.*[a-z]).{8,32}$/
+export const USER_REGEX = /^[a-zA-Z]+(?:([',. -][a-zA-Z ])?[a-zA-Z])$/
 
 type FieldValidator = (value?: string) => string
 

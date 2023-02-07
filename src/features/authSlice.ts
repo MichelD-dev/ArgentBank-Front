@@ -2,22 +2,13 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {RootState} from '@/store/store'
 import {PURGE} from 'redux-persist'
 import {createSelector} from 'reselect'
-import {TokenType, UserType} from '@/types/user.model'
+import type {AuthType, TokenType, UserType} from '@/types/user.model'
 
-export interface AuthState {
-  token: TokenType | null
+const initialState: AuthType = {
+  token: '',
   userName: {
-    firstName: string | null
-    lastName: string | null
-  }
-  persistIsChecked: boolean
-}
-
-const initialState: AuthState = {
-  token: null,
-  userName: {
-    firstName: null,
-    lastName: null,
+    firstName: '',
+    lastName: '',
   },
   persistIsChecked: false,
 }
