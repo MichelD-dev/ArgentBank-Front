@@ -66,7 +66,7 @@ const LoginForm = () => {
   }, [isSuccess, error])
 
   return (
-    <main className={styles.main}>
+    <main className={`${styles.main} ${styles.bgDark}`}>
       <section className={styles.signInContent}>
         <i className={`fa fa-user-circle ${styles.signInIcon}`}></i>
         <h1>Sign In</h1>

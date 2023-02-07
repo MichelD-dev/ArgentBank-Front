@@ -6,30 +6,12 @@
   list-style-type: none;
 }
 
-.mainNav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-.mainNav a.router-link-exact-active {
-  color: #42b983;
-}
-
 .mainNavItem {
-  text-decoration: none;
   margin-right: 0.5rem;
-}
-
-.mainNavItem.active {
-  text-decoration: underline;
-}
-
-.mainNavLogo {
-  display: flex;
-  align-items: center;
-}
-
-.mainNavLogoImage {
-  max-width: 100%;
-  width: 200px;
+  a {
+    text-decoration: none;
+    i {
+      margin-right: 0.5rem;
+    }
+  }
 }

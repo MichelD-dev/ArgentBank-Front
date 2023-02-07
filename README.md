@@ -40,7 +40,6 @@ mongo --version
 -  ![GitHub package.json dependency version (prod)](https://img.shields.io/static/v1?label=Zod&message=v3.20.2&color=informational?style=for-the-badge&logo=zod)
 -  ![GitHub package.json dependency version (prod)](https://img.shields.io/static/v1?label=EsLint&message=v8.31.0&color=informational?style=for-the-badge&logo=eslint)
 -  ![GitHub package.json dependency version (prod)](https://img.shields.io/static/v1?label=Prettier&message=v2.8.3&color=informational?style=for-the-badge&logo=prettier)
--  ![GitHub package.json dependency version (prod)](https://img.shields.io/static/v1?label=JsDoc&message=v4.0.0&color=informational?style=for-the-badge&logo=jsdoc)
 -  ![GitHub package.json dependency version (prod)](https://img.shields.io/static/v1?label=Sass&message=v1.57.1&color=informational?style=for-the-badge&logo=sass)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
