@@ -149,6 +149,23 @@ $ yarn dev
 Si le site n’est pas lancé automatiquement : Ouvrir le navigateur à l'adresse:
 http://localhost:5173/
 
+<br>
+
+Vous disposez pour vous connecter des profils des deux utilisateurs suivants:
+### Tony Stark
+
+- First Name: `Tony`
+- Last Name: `Stark`
+- Email: `tony@stark.com`
+- Password: `password123`
+
+### Steve Rogers
+
+- First Name: `Steve`,
+- Last Name: `Rogers`,
+- Email: `steve@rogers.com`,
+- Password: `password456`
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 Vous pouvez générer de la documentation au format JsDoc avec la commande
